@@ -4,7 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>هدى القرآن</title>
-  
+
+  <!-- Google Analytics 4 (GA4) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-469686819"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-469686819');
+  </script>
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
@@ -39,7 +48,6 @@
       padding: 20px;
       background: rgba(0,0,0,0.2);
       border-bottom: 2px solid #ffd700;
-      font-family: 'Amiri', serif;
     }
 
     .button-container {
@@ -84,8 +92,6 @@
       background: rgba(0, 69, 64, 0.95);
       padding: 15px 0;
       border-top: 2px solid #ffd700;
-      backdrop-filter: blur(5px);
-      z-index: 1000;
     }
 
     .footer-menu a {
@@ -95,10 +101,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      transition: 0.3s;
       padding: 8px 20px;
       border-radius: 8px;
-      min-width: 90px;
     }
 
     .footer-menu a:hover, 
@@ -111,94 +115,6 @@
       font-size: 1.8em;
       margin-bottom: 8px;
     }
-
-    .search-container {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: rgba(0, 69, 64, 0.95);
-      padding: 15px;
-      display: none;
-      z-index: 1000;
-    }
-
-    .search-container.visible {
-      display: block;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 25px;
-      border: 2px solid #ffd700;
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      font-size: 1em;
-    }
-
-    @media (max-width: 768px) {
-      .header-title {
-        font-size: 1.5em;
-        padding: 15px;
-      }
-
-      .button-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 20px 10px;
-      }
-
-      .option-button {
-        font-size: 1.1em;
-        padding: 20px;
-        min-height: 100px;
-      }
-
-      .footer-menu a {
-        font-size: 0.9em;
-        padding: 8px 15px;
-        min-width: 80px;
-      }
-
-      .footer-menu i {
-        font-size: 1.5em;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .top-bar {
-        padding: 10px 15px;
-      }
-
-      .header-title {
-        font-size: 1.3em;
-        padding: 10px;
-      }
-
-      .option-button {
-        font-size: 1em;
-      }
-
-      .footer-menu {
-        padding: 10px 0;
-      }
-
-      .footer-menu a {
-        font-size: 0.8em;
-        padding: 8px 10px;
-        min-width: 70px;
-      }
-
-      .footer-menu i {
-        font-size: 1.3em;
-        margin-bottom: 5px;
-      }
-
-      .search-input {
-        padding: 10px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -206,10 +122,6 @@
   <div class="top-bar">
     <i class="fas fa-search" onclick="toggleSearch()"></i>
     <i class="fas fa-bars"></i>
-  </div>
-
-  <div class="search-container" id="searchBox">
-    <input type="text" class="search-input" placeholder="ابحث هنا...">
   </div>
 
   <div class="header-title">هدى القرآن</div>
@@ -262,48 +174,25 @@
       searchBox.classList.toggle('visible');
     }
 
-    document.addEventListener('click', (e) => {
-      const searchBox = document.getElementById('searchBox');
-      if (!e.target.closest('.fa-search') && !e.target.closest('.search-container')) {
-        searchBox.classList.remove('visible');
+    document.addEventListener("keydown", function(event) {
+      if (
+        event.key === "F12" || 
+        (event.ctrlKey && event.shiftKey && event.key === "I") || 
+        (event.ctrlKey && event.key === "U")
+      ) {
+        event.preventDefault();
       }
     });
 
-    document.querySelector('.search-container').addEventListener('click', (e) => {
-      e.stopPropagation();
+    document.addEventListener("contextmenu", function(event) {
+      event.preventDefault();
     });
 
-    // إضافة حماية لمنع أدوات المطورين
-    (function() {
-      function redirectToTelegram() {
+    setInterval(function() {
+      if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
         window.location.href = "https://t.me/HudaApps";
       }
-
-      // منع أدوات المطورين باستخدام F12 و Ctrl+Shift+I
-      document.addEventListener("keydown", function(event) {
-        if (
-          event.key === "F12" || 
-          (event.ctrlKey && event.shiftKey && event.key === "I") || 
-          (event.ctrlKey && event.key === "U")
-        ) {
-          event.preventDefault();
-          redirectToTelegram();
-        }
-      });
-
-      // منع النقر بزر الفأرة الأيمن
-      document.addEventListener("contextmenu", function(event) {
-        event.preventDefault();
-        redirectToTelegram();
-      });
-
-      // الكشف عن فتح أدوات المطورين
-      setInterval(function() {
-        if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
-          redirectToTelegram();
-        }
-      }, 1000);
-    })();
+    }, 1000);
   </script>
 
 </body>
